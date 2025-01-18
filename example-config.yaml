@@ -1,0 +1,14 @@
+api_token: your_api_token_here
+droplet:
+  size: s-1vcpu-512mb-10gb
+  region: nyc1
+  image: ubuntu-24-10-x64
+  ttl: 10m
+tor_options:
+  - "ExitNodes {us},{ca} STRICT"
+ports:
+  local: 8888
+  remote: 9050
+dns:
+  primary: 8.8.8.8
+  secondary: 8.8.4.4
