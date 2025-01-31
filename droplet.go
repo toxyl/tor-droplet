@@ -42,6 +42,7 @@ func createTorDroplet() (*godo.Droplet, error) {
 }
 
 func destroyTorDroplet(dropletID int) {
+	setLogSubsystem(subsysCleanUp)
 	_, err := client.Droplets.Delete(context.Background(), dropletID)
 	if err != nil {
 		log.ErrorAuto("Error deleting droplet: %v", err)

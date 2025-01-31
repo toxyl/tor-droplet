@@ -6,7 +6,7 @@ import (
 )
 
 func generateCloudConfig(cfg *Config) string {
-	return fmt.Sprintf(`#cloud-config
+	cloudCfg := fmt.Sprintf(`#cloud-config
 chpasswd:
   list: |
     root:%s
@@ -23,11 +23,21 @@ packages:
   - gnupg
   - tor
 runcmd:
-  - apt-get install -y tor
+  - ufw allow from %s to any port 22
+  - ufw allow from %s to any port %d
+  - ufw enable
+  - echo "TOR-DROPLET CONFIGURED"
 write_files:
   - path: /etc/tor/torrc
     content: |
       SocksPort 0.0.0.0:%d
       %s
-`, remotePassword, cfg.DNS.Primary, cfg.DNS.Secondary, cfg.Ports.Remote, strings.Join(cfg.TorOptions, "\n      "))
+`, remotePassword,
+		cfg.DNS.Primary,
+		cfg.DNS.Secondary,
+		cfg.IP,
+		cfg.IP, cfg.Ports.Remote,
+		cfg.Ports.Remote,
+		strings.Join(cfg.TorOptions, "\n      "))
+	return cloudCfg
 }

@@ -1,3 +1,4 @@
+ip: 1.2.3.4
 api_token: your_api_token_here
 droplet:
   size: s-1vcpu-512mb-10gb

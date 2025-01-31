@@ -8,6 +8,7 @@ import (
 )
 
 type Config struct {
+	IP       string `yaml:"ip"`
 	APIToken string `yaml:"api_token"`
 	Droplet  struct {
 		Size   string        `yaml:"size"`

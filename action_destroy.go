@@ -10,6 +10,7 @@ import (
 )
 
 func destroyExpiredDroplets() {
+	setLogSubsystem(subsysCleanUp)
 	ctx := context.TODO()
 	droplets, _, err := client.Droplets.List(ctx, &godo.ListOptions{
 		Page:    1,

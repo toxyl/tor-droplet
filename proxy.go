@@ -4,7 +4,25 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"net/http"
+	"time"
+
+	"golang.org/x/net/proxy"
 )
+
+func newSocks5Client(proxyAddr string, timeout time.Duration) (*http.Client, error) {
+	dialer, err := proxy.SOCKS5("tcp", proxyAddr, nil, proxy.Direct)
+	if err != nil {
+		return nil, err
+	}
+
+	return &http.Client{
+		Timeout: timeout,
+		Transport: &http.Transport{
+			Dial: dialer.Dial,
+		},
+	}, nil
+}
 
 func startLocalProxy() error {
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", config.Ports.Local))
